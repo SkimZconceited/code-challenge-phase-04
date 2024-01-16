@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 import os
-from flask import Flask, make_response
+from flask import Flask, make_response, jsonify
 from flask_migrate import Migrate
 
 from models import db, Hero
 
 abs_path = os.getcwd()
-abs_python_path = os.path.normpath(abs_path)
+# abs_python_path = os.path.normpath(abs_path) for windows purposes
 db_path = f'sqlite:///{abs_path}/db/app.db'
 
 
@@ -21,10 +21,14 @@ db.init_app(app)
 
 @app.route('/')
 def home():
-    hero = Hero(name = 'Mojo Jojo', super_name = 'Crazy Ape')
-    db.session.add(hero)
-    db.session.commit()
-    return 'Hero Added'
+    return ''
+
+@app.route("/heroes")
+def heroes():
+    all_heroes = Hero.query.all()
+    heroes_list = [hero.to_dict() for hero in all_heroes]
+    print(heroes_list)
+    return jsonify(heroes_list)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
