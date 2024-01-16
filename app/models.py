@@ -44,8 +44,18 @@ class HeroPower(db.Model):
     power_id = db.Column(db.Integer, db.ForeignKey('power.id'), nullable = False)
     strength = db.Column(db.String(255), nullable = False)
     created_at = db.Column(db.DateTime, default = db.func.now(), nullable = False)
-    created_at = db.Column(db.DateTime, default = db.func.now(), onupdate = db.func.now(), nullable = False)
+    updated_at = db.Column(db.DateTime, default = db.func.now(), onupdate = db.func.now(), nullable = True)
     
     hero = db.relationship('Hero', back_populates='hero_powers')
     power = db.relationship('Power', back_populates='hero_powers')
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'hero_id': self.hero_id,
+            'power_id': self.power_id,
+            'strength': self.strength,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
     

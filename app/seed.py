@@ -72,4 +72,4 @@ def seed_heropower():
             
 # seed_heroes()
 # seed_powers()
-seed_heropower()
+# seed_heropower()
